@@ -881,6 +881,7 @@ import os
 API_KEY = os.getenv("API_KEY")
 import google.generativeai as genai
 from googletrans import Translator
+from google.api_core import retry
 
 genai.configure(api_key=API_KEY)
 
