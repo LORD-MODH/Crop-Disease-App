@@ -977,7 +977,6 @@ def is_agriculture_related(query):
 
     return False
 
-    return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
     
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
