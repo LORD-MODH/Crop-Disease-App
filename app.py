@@ -877,7 +877,6 @@ if mode == "Plant Disease Classifier":
                 st.write("Solution not available for this disease in the selected language.")
         else:
             st.write("Your plant appears to be healthy. Keep up the good care :)!")
-import streamlit as st
 import os
 API_KEY = os.getenv("API_KEY")
 import google.generativeai as genai
@@ -901,7 +900,11 @@ nltk.data.path.append('./nltk_data')
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import sent_tokenize
+nltk.data.path.append('./nltk_data')  # Ensure your path is appended
 
+test_sentence = "This is a test sentence. Let's check if NLTK can tokenize it."
+st.write(sent_tokenize(test_sentence))
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
