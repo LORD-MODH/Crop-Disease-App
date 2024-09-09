@@ -966,7 +966,7 @@ if mode == "Chatbot Mode":
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
     
-    user_input = st.chat_input("You: ")
+    user_input = st.chat_input("You: ").strip()
     
     if user_input:
         user_input_translated, src_lang = translate_to_english(user_input)
