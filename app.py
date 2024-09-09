@@ -881,7 +881,6 @@ import os
 API_KEY = os.getenv("API_KEY")
 import google.generativeai as genai
 from googletrans import Translator
-from google.api_core import retry
 
 genai.configure(api_key=API_KEY)
 
@@ -978,7 +977,7 @@ if mode == "Chatbot Mode":
                 st.markdown(user_input)
     
             with st.spinner("Translating and generating response..."):
-                response = genai.GenerativeModel('gemini-1.5-pro-latest').generate_content(user_input_translated,retry=retry.Retry(deadline=60) )
+                response = genai.GenerativeModel('gemini-1.5-pro-latest').generate_content(user_input_translated)
                 translated_response = translate_to_original(response.text, src_lang)
     
                 with st.chat_message("assistant"):
