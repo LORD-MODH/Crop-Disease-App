@@ -896,12 +896,12 @@ def translate_to_original(text, src_lang):
     return translation.text
     
 import nltk
+
+nltk.data.path.append('./nltk_data')
+
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
