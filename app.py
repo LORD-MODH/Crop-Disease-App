@@ -951,6 +951,31 @@ def is_agriculture_related(query):
     ]
 
     query_lower = query.lower()
+    irregular_plurals = {
+        "leaf": "leaves",
+        "fungus": "fungi",
+        "bacterium": "bacteria",
+        "larva": "larvae",
+        "cactus": "cacti",
+        "nucleus": "nuclei",
+        "syllabus": "syllabi",
+        "focus": "foci",
+        "analysis": "analyses",
+        "thesis": "theses",
+        "crisis": "crises",
+        "phenomenon": "phenomena",
+        "criterion": "criteria",
+        "datum": "data"
+    }
+    for keyword in agriculture_keywords:
+        if re.search(rf'\b{re.escape(keyword)}s?\b', query_lower):
+            return True
+
+    for singular, plural in irregular_plurals.items():
+        if re.search(rf'\b{re.escape(singular)}\b', query_lower) or re.search(rf'\b{re.escape(plural)}\b', query_lower):
+            return True
+
+    return False
 
     return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
     
