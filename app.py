@@ -947,36 +947,14 @@ def is_agriculture_related(query):
         "clubroot", "botrytis", "gummosis", "apple scab", "black rot", "leaf curl", 
         "fruit rot", "sooty mold", "mosaic virus", "fruit fly", "codling moth", 
         "root-knot nematode", "aphids", "spider mites", "whiteflies", "thrips", 
-        "cabbage looper", "tomato hornworm", "potato beetle", "melon fly"
+        "cabbage looper", "tomato hornworm", "potato beetle", "melon fly","datum","data",
+        "phenomenon", "phenomena","crisis","crises", "analysis", "analyses","bacterium","bacteria",
+        "fungus","fungi","leaves"
+
     ]
 
     query_lower = query.lower()
-    irregular_plurals = {
-        "leaf": "leaves",
-        "fungus": "fungi",
-        "bacterium": "bacteria",
-        "larva": "larvae",
-        "cactus": "cacti",
-        "nucleus": "nuclei",
-        "syllabus": "syllabi",
-        "focus": "foci",
-        "analysis": "analyses",
-        "thesis": "theses",
-        "crisis": "crises",
-        "phenomenon": "phenomena",
-        "criterion": "criteria",
-        "datum": "data"
-    }
-    for keyword in agriculture_keywords:
-        if re.search(rf'\b{re.escape(keyword)}s?\b', query_lower):
-            return True
-
-    for singular, plural in irregular_plurals.items():
-        if re.search(rf'\b{re.escape(singular)}\b', query_lower) or re.search(rf'\b{re.escape(plural)}\b', query_lower):
-            return True
-
-    return False
-
+    return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
     
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
