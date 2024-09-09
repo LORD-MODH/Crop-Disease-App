@@ -901,7 +901,8 @@ nltk.data.path.append('./nltk_data')
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import sent_tokenize
-nltk.data.path.append('./nltk_data')  # Ensure your path is appended
+nltk_data_path = os.path.abspath('./nltk_data')
+nltk.data.path.append('nltk_data_path ')  # Ensure your path is appended
 
 test_sentence = "This is a test sentence. Let's check if NLTK can tokenize it."
 st.write(sent_tokenize(test_sentence))
