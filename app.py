@@ -895,15 +895,13 @@ def translate_to_original(text, src_lang):
     translation = translator.translate(text, dest=src_lang)
     return translation.text
     
-import spacy
-from spacy.cli import download
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    print("Downloading 'en_core_web_sm' model...")
-    download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
@@ -955,9 +953,12 @@ def is_agriculture_related(query):
     "whiteflies", "thrips", "cabbage looper", "tomato hornworm", 
     "potato beetle", "melon fly"
 ]
-    doc = nlp(query.lower())
-    for token in doc:
-        if token.lemma_ in agriculture_keywords:
+    lemmatizer = WordNetLemmatizer()
+    tokens = word_tokenize(query.lower())
+    lemmas = [lemmatizer.lemmatize(token) for token in tokens]
+    
+    for lemma in lemmas:
+        if lemma in agriculture_keywords:
             return True
     return False
 
