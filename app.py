@@ -878,6 +878,8 @@ if mode == "Plant Disease Classifier":
         else:
             st.write("Your plant appears to be healthy. Keep up the good care!")
 import streamlit as st
+import os
+API_KEY = os.getenv("API_KEY")
 import google.generativeai as genai
 from googletrans import Translator
 
