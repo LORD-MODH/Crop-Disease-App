@@ -902,7 +902,7 @@ def is_agriculture_related(query):
     query_lower = query.lower()
     return any(keyword in query_lower for keyword in agriculture_keywords)
 
-if mode == "Chatbot Mode":
+if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
 
     if "messages" not in st.session_state:
