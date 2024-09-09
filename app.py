@@ -884,6 +884,13 @@ from googletrans import Translator
 
 genai.configure(api_key=API_KEY)
 
+import nltk
+nltk.data.path.append('./nltk_data')
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt', download_dir='./nltk_data', quiet=True)
+    
 def translate_to_english(text):
     translator = Translator()
     translation = translator.translate(text, dest='en')
@@ -894,14 +901,6 @@ def translate_to_original(text, src_lang):
     translation = translator.translate(text, dest=src_lang)
     return translation.text
     
-import nltk
-nltk.data.path.append('./nltk_data')
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', download_dir='./nltk_data', quiet=True)
-
-
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
@@ -961,39 +960,39 @@ def is_agriculture_related(query):
         if lemma in agriculture_keywords:
             return True
     return False
-
+    
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
-
+    
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-
+    
     user_input = st.chat_input("You: ")
-
+    
     if user_input:
-        user_input_translated, src_lang = translate_to_english(user_input)  # Translate only after checking input
+        user_input_translated, src_lang = translate_to_english(user_input)
         if is_agriculture_related(user_input_translated):
             st.session_state.messages.append({"role": "user", "content": user_input})
-
+    
             with st.chat_message("user"):
                 st.markdown(user_input)
-
+    
             with st.spinner("Translating and generating response..."):
                 response = genai.GenerativeModel('gemini-1.5-pro-latest').generate_content(user_input_translated)
                 translated_response = translate_to_original(response.text, src_lang)
-
+    
                 with st.chat_message("assistant"):
                     st.markdown(translated_response)
-
+    
                 st.session_state.messages.append({"role": "assistant", "content": translated_response})
         else:
             with st.chat_message("assistant"):
                 st.markdown("I can only assist with topics related to farming, agriculture, plants, crops, and food. Please try again with a relevant query.")
-
+                
 elif mode == "Image to Text":
     st.header("Image to Text")
 
