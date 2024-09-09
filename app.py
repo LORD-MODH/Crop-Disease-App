@@ -876,7 +876,7 @@ if mode == "Plant Disease Classifier":
             else:
                 st.write("Solution not available for this disease in the selected language.")
         else:
-            st.write("Your plant appears to be healthy. Keep up the good care!")
+            st.write("Your plant appears to be healthy. Keep up the good care :)!")
 import streamlit as st
 import os
 API_KEY = os.getenv("API_KEY")
@@ -894,7 +894,9 @@ def translate_to_original(text, src_lang):
     translator = Translator()
     translation = translator.translate(text, dest=src_lang)
     return translation.text
-import re
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
@@ -946,8 +948,11 @@ def is_agriculture_related(query):
     "whiteflies", "thrips", "cabbage looper", "tomato hornworm", 
     "potato beetle", "melon fly"
 ]
-    query_lower = query.lower()
-    return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
+    doc = nlp(query.lower())
+    for token in doc:
+        if token.lemma_ in agriculture_keywords:
+            return True
+    return False
 
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
