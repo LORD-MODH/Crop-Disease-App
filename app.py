@@ -922,20 +922,23 @@ def is_agriculture_related(query):
     "fig", "date", "apricot", "lemon", "lime", "grapefruit", "tangerine", 
     "coconut", "guava", "lychee", "jackfruit", "custard apple", "durian", 
     "dragonfruit", "persimmon", "passionfruit", "sapodilla", "starfruit", 
-    "mulberry", "cranberry", "quince","tomato", "potato", "onion", "carrot", "cabbage", "cauliflower", "broccoli", 
+    "mulberry", "cranberry", "quince", "tomato", "potato", "onion", "carrot", "cabbage", "cauliflower", "broccoli", 
     "spinach", "lettuce", "kale", "cucumber", "zucchini", "eggplant", "bell pepper", 
     "pumpkin", "squash", "radish", "turnip", "sweet potato", "beetroot", "garlic", 
     "ginger", "chili", "green bean", "peas", "okra", "asparagus", "artichoke", 
     "celery", "brussels sprouts", "leek", "shallot", "parsnip", "fennel", 
     "collard greens", "swiss chard", "watercress", "mushroom", "bamboo shoot", 
     "lotus root", "gourd", "bitter melon", "yam", "taro", "daikon", "horseradish", 
-    "jicama", "chayote","rose", "jasmine", "marigold", "hibiscus", "lavender", "sunflower", "daisy", 
+    "jicama", "chayote", "rose", "jasmine", "marigold", "hibiscus", "lavender", "sunflower", "daisy", 
     "tulip", "orchid", "lily", "daffodil", "geranium", "chrysanthemum", 
     "violet", "petunia", "zinnia", "begonia", "gladiolus", "freesia", 
     "snapdragon", "lotus", "poppy", "carnation", "pansy", "morning glory", 
     "cosmos", "calendula", "foxglove", "hollyhock", "edelweiss", 
-    "bluebell", "dahlia", "gerbera",
-    "citrus greening", "fire blight", "peach leaf curl", "downy mildew", 
+    "bluebell", "dahlia", "gerbera", "black pepper", "turmeric", "cinnamon", "clove", "cardamom", "coriander", 
+    "cumin", "fenugreek", "mustard", "star anise", "bay leaf", "saffron", 
+    "paprika", "nutmeg", "mace", "oregano", "basil", "thyme", "rosemary", 
+    "marjoram", "dill", "tarragon", "fennel seed", "chili pepper", "ginger root", 
+    "vanilla", "caraway", "sumac", "lemongrass", "allspice", "citrus greening", "fire blight", "peach leaf curl", "downy mildew", 
     "verticillium wilt", "fusarium wilt", "gray mold", "powdery mildew", 
     "clubroot", "botrytis", "gummosis", "apple scab", "black rot", 
     "leaf curl", "fruit rot", "sooty mold", "mosaic virus", "fruit fly", 
@@ -943,6 +946,7 @@ def is_agriculture_related(query):
     "whiteflies", "thrips", "cabbage looper", "tomato hornworm", 
     "potato beetle", "melon fly"
 ]
+
 
     query_lower = query.lower()
     return any(keyword in query_lower for keyword in agriculture_keywords)
