@@ -895,76 +895,64 @@ def translate_to_original(text, src_lang):
     translation = translator.translate(text, dest=src_lang)
     return translation.text
     
-import re
-agriculture_keywords = [
-    "farm(s)?", "farming", "agriculture", "plant(s|ing)?", "crop(s|ping)?", "food(s)?", 
-    "vegetable(s)?", "fruit(s)?", "soil(s)?", "harvest(s|ing)?", "pest(s)?", "irrigation(s)?", 
-    "fertilizer(s)?", "seed(s|ing)?", "disease(s)?", "yield(s)?", "weather(s)?", "climate(s)?", 
-    "rain(s)?", "sun(s)?", "humidity(ies)?", "temperature(s)?", "drought(s)?", 
-    "greenhouse(s)?", "pesticide(s)?", "herbicide(s)?", "fungicide(s)?", "crop rotation(s)?", 
-    "organic farming", "composting", "mulching", "vermicomposting", "biodiversity", 
-    "monoculture(s)?", "polyculture(s)?", "intercropping", "cover crop(s)?", 
-    "cash crop(s)?", "staple crop(s)?", "cereal(s)?", "grain(s)?", "legume(s)?", 
-    "pulse(s)?", "root vegetable(s)?", "tuber(s)?", "oilseed(s)?", "silage", 
-    "weed control(s)?", "crop protection(s)?", "biological control(s)?", "plant nutrition", 
-    "soil erosion(s)?", "soil fertility(ies)?", "land degradation(s)?", "bacterial disease(s)?", 
-    "fungal disease(s)?", "viral disease(s)?", "blight(s)?", "mosaic virus(es)?", 
-    "rust(s)?", "powdery mildew", "downy mildew(s)?", "late blight(s)?", "early blight(s)?", 
-    "leaf(ves)? spot(s)?", "root rot(s)?", "stem rot(s)?", "fruit rot(s)?", "anthracnose", 
-    "canker(s)?", "wilt(s)?", "smut(s)?", "scab(s)?", "nematode(s)?", "aphid(s)?", 
-    "mealybug(s)?", "thrip(s)?", "whitefly(ies)?", "cutworm(s)?", "armyworm(s)?", 
-    "leafhopper(s)?", "bollworm(s)?", "stem borer(s)?", "fruit borer(s)?", "grub(s)?", 
-    "maggot(s)?", "mite(s)?", "trace element(s)?", "macro nutrient(s)?", 
-    "micro nutrient(s)?", "photosynthesis", "respiration", "transpiration", 
-    "chlorophyll", "green manure", "soil structure(s)?", "soil moisture", 
-    "water retention", "crop stress", "pest outbreak(s)?", "farmer income(s)?", 
-    "soil testing", "seed technology", "crop disease(s)?", 
-    "apple(s)?", "banana(s)?", "orange(s)?", "grape(s)?", "mango(es)?", "papaya(s)?", 
-    "pineapple(s)?", "watermelon(s)?", "melon(s)?", "strawberry(ies)?", "blueberry(ies)?", 
-    "raspberry(ies)?", "blackberry(ies)?", "pear(s)?", "peach(es)?", "plum(s)?", 
-    "cherry(ies)?", "pomegranate(s)?", "kiwi(s)?", "avocado(es)?", "fig(s)?", "date(s)?", 
-    "apricot(s)?", "lemon(s)?", "lime(s)?", "grapefruit(s)?", "tangerine(s)?", 
-    "coconut(s)?", "guava(s)?", "lychee(s)?", "jackfruit(s)?", "custard apple(s)?", 
-    "durian(s)?", "dragonfruit(s)?", "persimmon(s)?", "passionfruit(s)?", 
-    "sapodilla(s)?", "starfruit(s)?", "mulberry(ies)?", "cranberry(ies)?", 
-    "quince(s)?", "tomato(es)?", "potato(es)?", "onion(s)?", "carrot(s)?", 
-    "cabbage(s)?", "cauliflower(s)?", "broccoli", "spinach", "lettuce", "kale", 
-    "cucumber(s)?", "zucchini(s)?", "eggplant(s)?", "bell pepper(s)?", "pumpkin(s)?", 
-    "squash(es)?", "radish(es)?", "turnip(s)?", "sweet potato(es)?", "beetroot(s)?", 
-    "garlic", "ginger", "chili(es)?", "green bean(s)?", "pea(s)?", "okra", 
-    "asparagus", "artichoke(s)?", "celery", "brussels sprout(s)?", "leek(s)?", 
-    "shallot(s)?", "parsnip(s)?", "fennel", "collard green(s)?", "swiss chard", 
-    "watercress", "mushroom(s)?", "bamboo shoot(s)?", "lotus root(s)?", 
-    "gourd(s)?", "bitter melon(s)?", "yam(s)?", "taro", "daikon", "horseradish", 
-    "jicama", "chayote", "rose(s)?", "jasmine", "marigold(s)?", "hibiscus", 
-    "lavender", "sunflower(s)?", "daisy(ies)?", "tulip(s)?", "orchid(s)?", 
-    "lily(ies)?", "daffodil(s)?", "geranium(s)?", "chrysanthemum(s)?", 
-    "violet(s)?", "petunia(s)?", "zinnia(s)?", "begonia(s)?", "gladiolus", 
-    "freesia(s)?", "snapdragon(s)?", "lotus", "poppy(ies)?", "carnation(s)?", 
-    "pansy(ies)?", "morning glory(ies)?", "cosmos", "calendula", "foxglove(s)?", 
-    "hollyhock(s)?", "edelweiss", "bluebell(s)?", "dahlia(s)?", "gerbera(s)?", 
-    "black pepper", "turmeric", "cinnamon", "clove(s)?", "cardamom", "coriander", 
-    "cumin", "fenugreek", "mustard", "star anise", "bay leaf", "saffron", 
-    "paprika", "nutmeg", "mace", "oregano", "basil", "thyme", "rosemary", 
-    "marjoram", "dill", "tarragon", "fennel seed", "chili pepper", "ginger root", 
-    "vanilla", "caraway", "sumac", "lemongrass", "allspice", "citrus greening", 
-    "fire blight", "peach leaf curl", "downy mildew(s)?", "verticillium wilt(s)?", 
-    "fusarium wilt(s)?", "gray mold", "powdery mildew", "clubroot", "botrytis", 
-    "gummosis", "apple scab", "black rot", "leaf curl", "fruit rot(s)?", 
-    "sooty mold", "mosaic virus(es)?", "fruit fly(ies)?", "codling moth", 
-    "root-knot nematode(s)?", "aphids", "spider mite(s)?", "whitefly(ies)?", 
-    "thrips", "cabbage looper(s)?", "tomato hornworm(s)?", "potato beetle(s)?", 
-    "melon fly(ies)?"
-]
 
 import re
 
 def is_agriculture_related(query):
-    query = query.lower()
-    for keyword in agriculture_keywords:
-        if re.search(keyword, query):
-            return True
-    return False
+    agriculture_keywords = [
+        "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
+        "fruits", "soil", "harvest", "pest", "irrigation", "fertilizer", "seeds", 
+        "disease", "yield", "weather", "climate", "rain", "sun", "humidity", 
+        "temperature", "drought", "greenhouse", "sustainable farming", "pesticide", 
+        "herbicide", "fungicide", "crop rotation", "organic farming", "compost", 
+        "mulching", "vermicomposting", "biodiversity", "monoculture", "polyculture", 
+        "intercropping", "cover crops", "cash crops", "staple crops", "cereal", 
+        "grain", "legume", "pulse", "root vegetable", "tuber", "oilseed", "silage", 
+        "weed control", "crop protection", "biological control", "plant nutrition", 
+        "soil erosion", "crop water requirement", "soil fertility", "land degradation", 
+        "bacterial disease", "fungal disease", "viral disease", "blight", "mosaic virus", 
+        "rust", "powdery mildew", "downy mildew", "late blight", "early blight", 
+        "leaf spot", "root rot", "stem rot", "fruit rot", "anthracnose", "canker", 
+        "wilt", "smut", "scab", "nematode", "aphid", "mealybug", "thrips", "whitefly", 
+        "cutworm", "armyworm", "leafhopper", "bollworm", "stem borer", "fruit borer", 
+        "grub", "maggot", "mite", "trace elements", "macro nutrients", "micro nutrients", 
+        "photosynthesis", "respiration", "transpiration", "chlorophyll", "green manure", 
+        "soil structure", "soil moisture", "water retention", "crop stress", "pest outbreak", 
+        "farmer income", "soil testing", "seed technology", "crop diseases",
+        "apple", "banana", "orange", "grape", "mango", "papaya", "pineapple", 
+        "watermelon", "melon", "strawberry", "blueberry", "raspberry", "blackberry", 
+        "pear", "peach", "plum", "cherry", "pomegranate", "kiwi", "avocado", 
+        "fig", "date", "apricot", "lemon", "lime", "grapefruit", "tangerine", 
+        "coconut", "guava", "lychee", "jackfruit", "custard apple", "durian", 
+        "dragonfruit", "persimmon", "passionfruit", "sapodilla", "starfruit", 
+        "mulberry", "cranberry", "quince", "tomato", "potato", "onion", "carrot", "cabbage", 
+        "cauliflower", "broccoli", "spinach", "lettuce", "kale", "cucumber", "zucchini", 
+        "eggplant", "bell pepper", "pumpkin", "squash", "radish", "turnip", "sweet potato", 
+        "beetroot", "garlic", "ginger", "chili", "green bean", "peas", "okra", 
+        "asparagus", "artichoke", "celery", "brussels sprouts", "leek", "shallot", 
+        "parsnip", "fennel", "collard greens", "swiss chard", "watercress", "mushroom", 
+        "bamboo shoot", "lotus root", "gourd", "bitter melon", "yam", "taro", "daikon", 
+        "horseradish", "jicama", "chayote", "rose", "jasmine", "marigold", "hibiscus", 
+        "lavender", "sunflower", "daisy", "tulip", "orchid", "lily", "daffodil", 
+        "geranium", "chrysanthemum", "violet", "petunia", "zinnia", "begonia", 
+        "gladiolus", "freesia", "snapdragon", "lotus", "poppy", "carnation", "pansy", 
+        "morning glory", "cosmos", "calendula", "foxglove", "hollyhock", "edelweiss", 
+        "bluebell", "dahlia", "gerbera", "black pepper", "turmeric", "cinnamon", 
+        "clove", "cardamom", "coriander", "cumin", "fenugreek", "mustard", 
+        "star anise", "bay leaf", "saffron", "paprika", "nutmeg", "mace", "oregano", 
+        "basil", "thyme", "rosemary", "marjoram", "dill", "tarragon", "fennel seed", 
+        "chili pepper", "ginger root", "vanilla", "caraway", "sumac", "lemongrass", 
+        "allspice", "citrus greening", "fire blight", "peach leaf curl", "downy mildew", 
+        "verticillium wilt", "fusarium wilt", "gray mold", "powdery mildew", 
+        "clubroot", "botrytis", "gummosis", "apple scab", "black rot", "leaf curl", 
+        "fruit rot", "sooty mold", "mosaic virus", "fruit fly", "codling moth", 
+        "root-knot nematode", "aphids", "spider mites", "whiteflies", "thrips", 
+        "cabbage looper", "tomato hornworm", "potato beetle", "melon fly"
+    ]
+
+    query_lower = query.lower()
+
+    return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
     
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
