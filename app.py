@@ -13,7 +13,7 @@ if mode == "Plant Disease Classifier":
 
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.image("/Users/prahmodh/Documents/Project/projects/Fake news Classifier/ce97ac9b-e897-4791-b384-645e65ef005b-removebg-preview.png", width=300)
+        st.image("logo.png", width=300)
 
     class_names = [
         'Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust',
