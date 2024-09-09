@@ -969,7 +969,7 @@ if mode == "Chatbot Mode":
     user_input = st.chat_input("You: ")
     
     if user_input:
-        user_input_translated, src_lang = translate_to_english(user_input)
+        user_input_translated, src_lang = translate_to_english(user_input.strip())
         if is_agriculture_related(user_input_translated):
             st.session_state.messages.append({"role": "user", "content": user_input})
     
