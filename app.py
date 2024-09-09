@@ -894,18 +894,19 @@ def translate_to_original(text, src_lang):
     translation = translator.translate(text, dest=src_lang)
     return translation.text
     
+import os
 import nltk
-
-nltk.data.path.append('./nltk_data')
-
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import sent_tokenize
+
 nltk_data_path = os.path.abspath('./nltk_data')
-nltk.data.path.append('nltk_data_path ')  # Ensure your path is appended
+nltk.data.path.append(nltk_data_path)
+
+nltk.download('punkt', download_dir=nltk_data_path)
 
 test_sentence = "This is a test sentence. Let's check if NLTK can tokenize it."
 st.write(sent_tokenize(test_sentence))
+
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
