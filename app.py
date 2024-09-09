@@ -897,10 +897,53 @@ def translate_to_original(text, src_lang):
 
 def is_agriculture_related(query):
     agriculture_keywords = [
-        "farm", "farming", "agriculture", "plant", "crop", "food",
-        "vegetable", "fruits", "soil", "harvest", "pest", "irrigation",
-        "fertilizer", "seeds", "disease", "yield", "weather", "climate"
-    ]
+    "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
+    "fruits", "soil", "harvest", "pest", "irrigation", "fertilizer", "seeds", 
+    "disease", "yield", "weather", "climate", "rain", "sun", "humidity", 
+    "temperature", "drought", "greenhouse", "sustainable farming", "pesticide", 
+    "herbicide", "fungicide", "crop rotation", "organic farming", "compost", 
+    "mulching", "vermicomposting", "biodiversity", "monoculture", "polyculture", 
+    "intercropping", "cover crops", "cash crops", "staple crops", "cereal", 
+    "grain", "legume", "pulse", "root vegetable", "tuber", "oilseed", "silage", 
+    "weed control", "crop protection", "biological control", "plant nutrition", 
+    "soil erosion", "crop water requirement", "soil fertility", "land degradation", 
+    "bacterial disease", "fungal disease", "viral disease", "blight", "mosaic virus", 
+    "rust", "powdery mildew", "downy mildew", "late blight", "early blight", 
+    "leaf spot", "root rot", "stem rot", "fruit rot", "anthracnose", "canker", 
+    "wilt", "smut", "scab", "nematode", "aphid", "mealybug", "thrips", "whitefly", 
+    "cutworm", "armyworm", "leafhopper", "bollworm", "stem borer", "fruit borer", 
+    "grub", "maggot", "mite", "trace elements", "macro nutrients", "micro nutrients", 
+    "photosynthesis", "respiration", "transpiration", "chlorophyll", "green manure", 
+    "soil structure", "soil moisture", "water retention", "crop stress", "pest outbreak", 
+    "farmer income", "soil testing", "seed technology", "crop diseases",
+    "apple", "banana", "orange", "grape", "mango", "papaya", "pineapple", 
+    "watermelon", "melon", "strawberry", "blueberry", "raspberry", "blackberry", 
+    "pear", "peach", "plum", "cherry", "pomegranate", "kiwi", "avocado", 
+    "fig", "date", "apricot", "lemon", "lime", "grapefruit", "tangerine", 
+    "coconut", "guava", "lychee", "jackfruit", "custard apple", "durian", 
+    "dragonfruit", "persimmon", "passionfruit", "sapodilla", "starfruit", 
+    "mulberry", "cranberry", "quince","tomato", "potato", "onion", "carrot", "cabbage", "cauliflower", "broccoli", 
+    "spinach", "lettuce", "kale", "cucumber", "zucchini", "eggplant", "bell pepper", 
+    "pumpkin", "squash", "radish", "turnip", "sweet potato", "beetroot", "garlic", 
+    "ginger", "chili", "green bean", "peas", "okra", "asparagus", "artichoke", 
+    "celery", "brussels sprouts", "leek", "shallot", "parsnip", "fennel", 
+    "collard greens", "swiss chard", "watercress", "mushroom", "bamboo shoot", 
+    "lotus root", "gourd", "bitter melon", "yam", "taro", "daikon", "horseradish", 
+    "jicama", "chayote","rose", "jasmine", "marigold", "hibiscus", "lavender", "sunflower", "daisy", 
+    "tulip", "orchid", "lily", "daffodil", "geranium", "chrysanthemum", 
+    "violet", "petunia", "zinnia", "begonia", "gladiolus", "freesia", 
+    "snapdragon", "lotus", "poppy", "carnation", "pansy", "morning glory", 
+    "cosmos", "calendula", "foxglove", "hollyhock", "edelweiss", 
+    "bluebell", "dahlia", "gerbera",
+    "citrus greening", "fire blight", "peach leaf curl", "downy mildew", 
+    "verticillium wilt", "fusarium wilt", "gray mold", "powdery mildew", 
+    "clubroot", "botrytis", "gummosis", "apple scab", "black rot", 
+    "leaf curl", "fruit rot", "sooty mold", "mosaic virus", "fruit fly", 
+    "codling moth", "root-knot nematode", "aphids", "spider mites", 
+    "whiteflies", "thrips", "cabbage looper", "tomato hornworm", 
+    "potato beetle", "melon fly"
+]
+
     query_lower = query.lower()
     return any(keyword in query_lower for keyword in agriculture_keywords)
 
