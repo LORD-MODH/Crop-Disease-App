@@ -896,9 +896,6 @@ def translate_to_original(text, src_lang):
     return translation.text
     
 import re
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-
 agriculture_keywords = [
     "farm(s)?", "farming", "agriculture", "plant(s|ing)?", "crop(s|ping)?", "food(s)?", 
     "vegetable(s)?", "fruit(s)?", "soil(s)?", "harvest(s|ing)?", "pest(s)?", "irrigation(s)?", 
@@ -960,15 +957,13 @@ agriculture_keywords = [
     "melon fly(ies)?"
 ]
 
+import re
+
 def is_agriculture_related(query):
-    lemmatizer = WordNetLemmatizer()
-    tokens = word_tokenize(query.lower())
-    lemmas = [lemmatizer.lemmatize(token) for token in tokens]
-    
-    for lemma in lemmas:
-        for pattern in agriculture_keywords:
-            if re.search(pattern, lemma):
-                return True
+    query = query.lower()
+    for keyword in agriculture_keywords:
+        if re.search(keyword, query):
+            return True
     return False
     
 if mode == "Chatbot Mode": 
