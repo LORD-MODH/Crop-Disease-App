@@ -977,7 +977,7 @@ if mode == "Chatbot Mode":
                 st.markdown(user_input)
     
             with st.spinner("Translating and generating response..."):
-                response = genai.GenerativeModel('gemini-1.5-pro-latest').generate_content(user_input_translated)
+                response = genai.GenerativeModel('gemini-1.5-pro-latest').generate_content(user_input_translated,retry=retry.Retry(deadline=60) )
                 translated_response = translate_to_original(response.text, src_lang)
     
                 with st.chat_message("assistant"):
