@@ -894,9 +894,16 @@ def translate_to_original(text, src_lang):
     translator = Translator()
     translation = translator.translate(text, dest=src_lang)
     return translation.text
+    
 import spacy
-nlp = spacy.load("en_core_web_sm")
+from spacy.cli import download
 
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    print("Downloading 'en_core_web_sm' model...")
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
