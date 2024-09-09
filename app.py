@@ -894,7 +894,7 @@ def translate_to_original(text, src_lang):
     translator = Translator()
     translation = translator.translate(text, dest=src_lang)
     return translation.text
-
+import re
 def is_agriculture_related(query):
     agriculture_keywords = [
     "farm", "farming", "agriculture", "plant", "crop", "food", "vegetable", 
@@ -946,10 +946,8 @@ def is_agriculture_related(query):
     "whiteflies", "thrips", "cabbage looper", "tomato hornworm", 
     "potato beetle", "melon fly"
 ]
-
-
     query_lower = query.lower()
-    return any(keyword in query_lower for keyword in agriculture_keywords)
+    return any(re.search(rf'\b{re.escape(keyword)}s?\b', query_lower) for keyword in agriculture_keywords)
 
 if mode == "Chatbot Mode": 
     st.header("Chatbot for Farmers 👒")
